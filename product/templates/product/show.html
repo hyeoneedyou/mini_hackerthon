@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>상세보기 페이지</h1>
+<h3>상품명 : {{ product.title }} </h3><br>
+<h3>설명 : {{ product.content }} </h3><br>
+<h3>가격 : {{ product.price }} </h3><br>
+<h3>재고 : {{ product.stock }} </h3><br>
+{% if product.user %}
+<h3>판매자 : {{ product.user }}</h3><br>
+{% else %}
+<h3>판매자 : 알 수 없음</h3><br>
+{% endif %}
+<h3>작성 시각 : {{ product.created_at }} </h3><br>
+<h3>수정 시각 : {{ product.updated_at }} </h3><br>  
+{% if product.image %}
+	 <img src ="{{ product.image.url }}" width="200px", height="200px" alt="">
+{%  endif %}
+
+{% if user == product.user %}
+	<a href="{% url 'product:update' product.pk %}" class="btn btn-primary">수정하기</a>
+	<a href = "{% url 'product:delete' product.pk %}" class="btn btn-danger">삭제하기</a>
+{% endif %}
+
+{% endblock %}
