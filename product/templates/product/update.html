@@ -2,7 +2,7 @@
  {% block content %}
  <div class="container"> 
 	<h1> 수정하기 </h1> 
-	<form action="{% url 'product:update' product.id %}" method="POST" enctype="form-data"> 
+	<form action="{% url 'product:update' product.id %}" method="POST" enctype="multipart/form-data"> 
 		{% csrf_token %} 
 		<div class="form-group">
 			 <label>상품명</label> 
@@ -20,7 +20,7 @@
             <label>재고</label> 
         <input type="text" class="form-control" name="stock" value = "{{ product.stock }}"> 
         </div>
-        <input type="file" name="image" value = "{{ product.image }}"> 
+        <input type="file" name="image" accept="image/*"> 
  		<input type="submit" value="글 수정" class="btn btn-outline-primary">
 	 </form> 
 </div>
