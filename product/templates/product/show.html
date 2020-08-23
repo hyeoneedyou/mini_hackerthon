@@ -19,13 +19,13 @@
 
 	<h3>작성 시각 : {{ product.created_at }} </h3><br>
 	<h3>수정 시각 : {{ product.updated_at }} </h3><br>
-	<h3>조회수: {{productt.view_count }}</h3><br>
+	<h3>조회수: {{product.view_count }}</h3><br>
 
 	{% if product.image %}
 		<img src ="{{ product.image.url }}" width="200px", height="200px" alt="">
 	{%  endif %}
 
-	{% if user == product.user %}
+	{% if user == product.writer %}
 		<a href="{% url 'product:update' product.pk %}" class="btn btn-primary">수정하기</a>
 		<a href = "{% url 'product:delete' product.pk %}" class="btn btn-danger">삭제하기</a>
 	{% endif %}
