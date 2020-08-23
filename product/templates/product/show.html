@@ -1,24 +1,56 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>상세보기 페이지</h1>
-<h3>상품명 : {{ product.title }} </h3><br>
-<h3>설명 : {{ product.content }} </h3><br>
-<h3>가격 : {{ product.price }} </h3><br>
-<h3>재고 : {{ product.stock }} </h3><br>
-{% if product.user %}
-<h3>판매자 : {{ product.user }}</h3><br>
-{% else %}
-<h3>판매자 : 알 수 없음</h3><br>
-{% endif %}
-<h3>작성 시각 : {{ product.created_at }} </h3><br>
-<h3>수정 시각 : {{ product.updated_at }} </h3><br>  
-{% if product.image %}
-	 <img src ="{{ product.image.url }}" width="200px", height="200px" alt="">
-{%  endif %}
 
-{% if user == product.user %}
-	<a href="{% url 'product:update' product.pk %}" class="btn btn-primary">수정하기</a>
-	<a href = "{% url 'product:delete' product.pk %}" class="btn btn-danger">삭제하기</a>
+	<h1>상세보기 페이지</h1>
+	<h3>상품명 : {{ product.title }} </h3><br>
+	<h3>설명 : {{ product.content }} </h3><br>
+	<h3>가격 : {{ product.price }} </h3><br>
+	<h3>재고 : {{ product.stock }} </h3><br>
+
+{% if product.writer %}
+	{% if product.writer.username == 'user' %}
+		<h3>판매자 : {{ product.writer.last_name }} {{ product.writer.first_name }}</h3><br>
+	{% else %}
+		<h3>판매자 : {{ post.writer }}</h3><br>
+	{% endif %}
+{% else %}
+	<h3>판매자 : 알 수 없음</h3>
 {% endif %}
+
+	<h3>작성 시각 : {{ product.created_at }} </h3><br>
+	<h3>수정 시각 : {{ product.updated_at }} </h3><br>
+	<h3>조회수: {{productt.view_count }}</h3><br>
+
+	{% if product.image %}
+		<img src ="{{ product.image.url }}" width="200px", height="200px" alt="">
+	{%  endif %}
+
+	{% if user == product.user %}
+		<a href="{% url 'product:update' product.pk %}" class="btn btn-primary">수정하기</a>
+		<a href = "{% url 'product:delete' product.pk %}" class="btn btn-danger">삭제하기</a>
+	{% endif %}
+
+	<div class="container mt-5">
+		<form class="form-row" action="{% url 'product:create_review' product.id %}" method="POST">
+			{% csrf_token %}
+			<textarea class="form-control col-11 mr-2" name="content"
+	placeholder="리뷰 내용 입력..."></textarea>
+			<input type="submit" class="btn btn-primary" value="확인">
+		</form>
+	</div>
+
+	<div class="container mt-5 mb-5">
+		{% for review in reviews %}
+		<div class="card">
+			<div class="card-body">
+				{% if review.writer.username == 'user' %}
+				<b>{{ review.writer.last_name }}{{ review.writer.first_name }}
+					{% else %}
+					<b>{{ review.writer }}</b> {% endif %} : {{ review.content }}</br>
+					<small>{{ review.created_at }}</small>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 
 {% endblock %}

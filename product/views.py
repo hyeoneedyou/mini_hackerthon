@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product
+from .models import Product, Review
 
 def new(request):
     return render(request, 'product/new.html')
@@ -12,8 +12,8 @@ def create(request):
         price = request.POST.get('price')
         stock = request.POST.get('stock')
         image = request.FILES.get('image')
-        user = request.user
-        Product.objects.create(title=title, content=content, price=price, stock=stock, image=image, user=user)
+        writer = request.user
+        Product.objects.create(title=title, content=content, price=price, stock=stock, image=image, writer=writer)
         return redirect('product:main')
 
 
@@ -24,7 +24,10 @@ def main(request):
 
 def show(request, id):
     product = Product.objects.get(pk=id)
-    return render(request, 'product/show.html', {'product': product})
+    product.view_count += 1
+    product.save()
+    all_reviews = product.reviews.all().order_by('-created_at')
+    return render(request, 'product/show.html', {'product': product, 'reviews':all_reviews})
 
 
 def update(request,id):
@@ -45,3 +48,10 @@ def delete(request, id):
 	product.delete()
 	return redirect("product:main")
 
+def create_review(request, product_id):
+    if request.method == "POST":
+        product = get_object_or_404(Product, pk=product_id)
+        current_user = request.user
+        review_content = request.POST.get('content')
+        Review.objects.create(content=review_content, writer=current_user, product=product)
+    return redirect('product:show', product_id)
