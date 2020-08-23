@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<div class = container>
 	<h1>상세보기 페이지</h1>
 	<h3>상품명 : {{ product.title }} </h3><br>
 	<h3>설명 : {{ product.content }} </h3><br>
@@ -11,7 +11,7 @@
 	{% if product.writer.username == 'user' %}
 		<h3>판매자 : {{ product.writer.last_name }} {{ product.writer.first_name }}</h3><br>
 	{% else %}
-		<h3>판매자 : {{ post.writer }}</h3><br>
+		<h3>판매자 : {{ product.writer }}</h3><br>
 	{% endif %}
 {% else %}
 	<h3>판매자 : 알 수 없음</h3>
@@ -48,9 +48,13 @@
 					{% else %}
 					<b>{{ review.writer }}</b> {% endif %} : {{ review.content }}</br>
 					<small>{{ review.created_at }}</small>
+					{% if user == review.writer %}
+						<a href="{% url 'product:update_review' review.pk %}" class="btn btn-primary">수정하기</a>
+						<a href="{% url 'product:delete_review' review.pk %}" class="btn btn-danger">삭제하기</a>
+					{% endif %}
 			</div>
 		</div>
 		{% endfor %}
 	</div>
-
+</div>
 {% endblock %}

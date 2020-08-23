@@ -55,3 +55,18 @@ def create_review(request, product_id):
         review_content = request.POST.get('content')
         Review.objects.create(content=review_content, writer=current_user, product=product)
     return redirect('product:show', product_id)
+
+
+def update_review(request, review_id):
+    review = get_object_or_404(Review,pk=review_id)
+    if request.method == "POST":
+        review.content = request.POST['content']
+        review.save()
+        return redirect('product:main')
+    return render(request,'product/review_update.html',{'review':review})
+
+
+def delete_review(request, review_id): 
+	review = get_object_or_404(Review, pk=review_id) 
+	review.delete()
+	return redirect("product:main")
