@@ -39,7 +39,7 @@ def update(request,id):
         product.stock = request.POST['stock']
         product.image = request.FILES.get('image')
         product.save()
-        return redirect('product:main')
+        return redirect('product:show', product.id)
     return render(request,'product/update.html',{'product':product})
 
 
