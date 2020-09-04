@@ -49,8 +49,8 @@
 					<b>{{ review.writer }}</b> {% endif %} : {{ review.content }}</br>
 					<small>{{ review.created_at }}</small>
 					{% if user == review.writer %}
-						<a href="{% url 'product:update_review' review.pk %}" class="btn btn-primary">수정하기</a>
-						<a href="{% url 'product:delete_review' review.pk %}" class="btn btn-danger">삭제하기</a>
+						<a href="{% url 'product:update_review' review.id %}" class="btn btn-primary">수정하기</a>
+						<a href="{% url 'product:delete_review' review.id %}" class="btn btn-danger">삭제하기</a>
 					{% endif %}
 			</div>
 		</div>
