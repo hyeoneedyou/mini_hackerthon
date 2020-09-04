@@ -59,16 +59,14 @@ def create_review(request, product_id):
 
 def update_review(request, review_id): 
     review = get_object_or_404(Review, pk=review_id)
-    product_id = review.product.id
     if request.method == "POST":
         review.content = request.POST['content']
         review.save()
-        return redirect('product:show', product_id)
+        return redirect('product:show', review.product.id)
     return render(request,'product/review_update.html',{'review':review})
 
 
 def delete_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    product_id = review.product.id
     review.delete()
-    return redirect('product:show', product_id)
+    return redirect('product:show', review.product.id) 
