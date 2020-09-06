@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Review
+from django.contrib.auth.decorators import login_required
 
 def new(request):
     return render(request, 'product/new.html')
@@ -70,3 +71,18 @@ def delete_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
     review.delete()
     return redirect('product:show', review.product.id) 
+
+
+@login_required
+def product_like(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    if request.user in product.like_user_set.all():
+        product.like_user_set.remove(request.user)
+    else:
+        product.like_user_set.add(request.user)
+
+    if request.GET.get('redirect_to') == 'show':
+        return redirect('product:show', product_id)
+    else:
+        return redirect('product:main')

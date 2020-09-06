@@ -39,6 +39,14 @@
 		</form>
 	</div>
 
+	<a href="{% url 'product:product_like' product.id %}?redirect_to=show">
+		{% if user in product.like_user_set.all %}
+			<i class="fas fa-heart"></i>
+		{% else %}
+			<i class="far fa-heart"></i>
+		{% endif %}
+	</a>
+
 	<div class="container mt-5 mb-5">
 		{% for review in reviews %}
 		<div class="card">
