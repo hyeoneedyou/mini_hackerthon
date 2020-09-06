@@ -86,3 +86,9 @@ def product_like(request, product_id):
         return redirect('product:show', product_id)
     else:
         return redirect('product:main')
+
+
+@login_required
+def like_list(request):
+    likes = request.user.like_set.all()
+    return render(request, 'product/like_list.html', {'likes':likes})
