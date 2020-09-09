@@ -8,7 +8,7 @@
 	<h3>재고 : {{ product.stock }} </h3><br>
 
 {% if product.writer %}
-	{% if product.writer.username == 'user' %}
+	{% if "user" in product.writer.username %}
 		<h3>판매자 : {{ product.writer.last_name }} {{ product.writer.first_name }}</h3><br>
 	{% else %}
 		<h3>판매자 : {{ product.writer }}</h3><br>
