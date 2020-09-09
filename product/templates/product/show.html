@@ -54,15 +54,14 @@
 	<p>좋아요를 누른 유저:</p>
 	{% for like_user in product.like_user_set.all %}
 
-	{% if like_user.username == 'user' %}
-		<p>{{ like_user.last_name }} {{ like_user.first_name }}</p><br>
-	{% elif like_user.username == 'user7' %}
-		<p>{{ like_user.last_name }} {{ like_user.first_name }}</p><br>	
+	{% if "user" in like_user.username %} <!-- user 라는 단어가 좋아요 누른 유저의 username에 포함되어 있을 경우 -->
+		{{ like_user.last_name }} {{ like_user.first_name }} <!-- 구글 소셜로그인이기 때문에 성+이름으로 표시 -->
 	{% else %}
-		<p>{{ like_user.username }}</p>
+		{{ like_user.username }}
 	{% endif %}
-    {% endfor %}
 
+	{% endfor %}
+	
 	<div class="container mt-5 mb-5">
 		{% for review in reviews %}
 		<div class="card">
