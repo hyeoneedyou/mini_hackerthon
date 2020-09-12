@@ -90,5 +90,5 @@ def product_like(request, product_id):
 
 @login_required
 def like_list(request):
-    likes = request.user.like_set.all()
+    likes = Like.objects.filter(user=request.user)
     return render(request, 'product/like_list.html', {'likes':likes})
